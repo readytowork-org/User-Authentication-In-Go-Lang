@@ -1,7 +1,6 @@
 ## API for Digital Sign
 ### Development
 - Copy `.env.example` to `.env` and update according to requirement.
-- Create `serviceAccountKey.json` file for firebase admin sdk.
 - To run `docker-compose up` (with default configuration will run at `5000` and adminer runs at `5001`)
 
 
