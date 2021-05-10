@@ -1,0 +1,7 @@
+cron:
+- description: "check reminder notifications"
+  url: /cron/notify-reminder
+  schedule: every day 11:00
+- description: "Check contract for exceeding 10 days"
+  url: /cron/expire-contract
+  schedule: every day 12:00

@@ -1,0 +1,9 @@
+
+server.log
+clean-gin
+__debug_bin
+.idea
+gin-bin
+serviceAccountKey.json
+cloud_sql_proxy
+deploy.sh

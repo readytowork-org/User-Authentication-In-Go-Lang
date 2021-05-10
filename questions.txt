@@ -1,0 +1,3 @@
+1. How to auto increment id ?
+2. How to catch the request body and modify in controller----> copier.Copy()
+3. How does shouldBindJson works and how to validate the required json input
