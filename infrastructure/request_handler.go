@@ -24,8 +24,16 @@ func NewRequestHandler(env Env) RequestHandler {
 		AllowCredentials: true,
 	}))
 
-	httpRouter.GET("/health-check", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"data": "Digital signature API Up and Running"})
+	// HealthCheck godoc
+	// @Summary Show the status of server.
+	// @Description get the status of server.
+	// @Tags root
+	// @Accept */*
+	// @Produce json
+	// @Success 200 {object} map[string]interface{}
+	// @Router / [get]
+	httpRouter.GET("/healthcheck", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{"data": "User Authentication API Up and Running"})
 	})
 	return RequestHandler{Gin: httpRouter}
 }
