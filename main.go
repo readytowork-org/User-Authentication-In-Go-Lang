@@ -1,7 +1,14 @@
 package main
 
-import "fmt"
+import (
+	"fx-modules/bootstrap"
+
+	"github.com/joho/godotenv"
+	"go.uber.org/fx"
+)
 
 func main() {
-	fmt.Println("Hello world")
+	godotenv.Load()
+	fx.New(bootstrap.Module).Run()
+
 }
