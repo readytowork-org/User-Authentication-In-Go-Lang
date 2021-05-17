@@ -6,4 +6,5 @@ var Module = fx.Options(
 	fx.Provide(NewLogger),
 	fx.Provide(NewDatabse),
 	fx.Provide(NewEnv),
+	fx.Provide(NewMigrations),
 )
