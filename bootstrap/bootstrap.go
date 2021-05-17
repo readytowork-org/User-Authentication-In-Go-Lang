@@ -15,11 +15,15 @@ var Module = fx.Options(
 func bootstrap(
 	lifecycle fx.Lifecycle,
 	logger infrastructure.Logger,
+	env infrastructure.Env,
+	database infrastructure.Database,
 ) {
+	conn, _ := database.DB.DB()
 	lifecycle.Append(fx.Hook{
 		OnStart: func(context.Context) error {
 			logger.Zap.Info("Starting Application")
 			logger.Zap.Info("-------------------------")
+			conn.SetMaxOpenConns(10)
 			return nil
 		},
 		OnStop: func(context.Context) error {
