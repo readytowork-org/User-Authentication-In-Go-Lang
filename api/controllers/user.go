@@ -134,11 +134,13 @@ func (u UserController) GetUserByID(c *gin.Context) {
 	idParam := c.Param("id")
 	id, err := strconv.Atoi(idParam)
 	if err != nil {
+		utils.SendMsgToSentry(c, err.Error())
 		responses.ErrorJSON(c, http.StatusBadRequest, "Failed to parse id")
 		return
 	}
 	user, err := u.services.GetUserByID(id)
 	if err != nil {
+		utils.SendMsgToSentry(c, err.Error())
 		responses.ErrorJSON(c, http.StatusBadRequest, "Failed to get user with given ID")
 		return
 	}
