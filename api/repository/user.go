@@ -66,3 +66,12 @@ func (u UserRepository) Login(email, password string) (models.User, error) {
 	return user, nil
 
 }
+
+// GetUserByID -> gets a user by ID
+func (u UserRepository) GetUserByID(ID int) (models.User, error) {
+	var user models.User
+	if err := u.db.DB.Model(&models.User{}).Where("id = ?", ID).First(&user).Error; err != nil {
+		return user, err
+	}
+	return user, nil
+}

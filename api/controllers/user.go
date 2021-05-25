@@ -7,6 +7,7 @@ import (
 	"digitalsign-api/models"
 	"digitalsign-api/utils"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -126,4 +127,21 @@ func (u UserController) Login(c *gin.Context) {
 		"user":  result,
 		"token": jwt_token,
 	})
+}
+
+// GetUserByID
+func (u UserController) GetUserByID(c *gin.Context) {
+	idParam := c.Param("id")
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		responses.ErrorJSON(c, http.StatusBadRequest, "Failed to parse id")
+		return
+	}
+	user, err := u.services.GetUserByID(id)
+	if err != nil {
+		responses.ErrorJSON(c, http.StatusBadRequest, "Failed to get user with given ID")
+		return
+	}
+	responses.ErrorJSON(c, http.StatusBadRequest, user)
+
 }

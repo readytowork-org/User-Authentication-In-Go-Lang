@@ -22,6 +22,7 @@ func (u UserRoute) Setup() {
 		users.GET("", middlewares.SetMiddlewareAuthentication(), u.controller.GetAllUsers)
 		users.POST("/signin", u.controller.CreateUser)
 		users.POST("/login", u.controller.Login)
+		users.GET("/:id", middlewares.SetMiddlewareAuthentication(), u.controller.GetUserByID)
 
 	}
 }

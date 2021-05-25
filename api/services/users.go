@@ -31,3 +31,8 @@ func (u UserService) CreateUser(user models.User) (models.User, error) {
 func (u UserService) Login(email string, password string) (models.User, error) {
 	return u.repository.Login(email, password)
 }
+
+//GetUserByID
+func (u UserService) GetUserByID(ID int) (models.User, error) {
+	return u.repository.GetUserByID(ID)
+}
