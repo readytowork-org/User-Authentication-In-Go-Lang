@@ -21,8 +21,26 @@ import (
 // If one Goroutine already holds the lock and if a new Goroutine
 // is trying to acquire a lock, the new Goroutine will be blocked until
 // the mutex is unlocked.
-func main() {
 
+// -----------About example -----------------
+// Here we start 100 goroutines to execute repeated reads against the state,
+//  once per millisecond in each goroutine.
+
+// For each read we pick a key to access,
+//  Lock() the mutex to ensure exclusive access to the state, read the value at the chosen key,
+// Unlock() the mutex, and increment the readOps count.
+
+// Wait a bit between reads.
+// We’ll also start 10 goroutines to simulate writes, using the same pattern we did for reads.
+// Let the 10 goroutines work on the state and mutex for a second.
+
+//     time.Sleep(time.Second)
+// Take and report final operation counts, With a final lock of state, show how it ended up.
+
+// Running the program shows that we executed about 90,000 total operations
+// against our mutex-synchronized state.
+
+func main() {
 	var state = make(map[int]int)
 
 	var mutex = &sync.Mutex{}
@@ -70,6 +88,7 @@ func main() {
 	mutex.Lock()
 	fmt.Println("state:", state)
 	mutex.Unlock()
+
 }
 
 // Expected output
