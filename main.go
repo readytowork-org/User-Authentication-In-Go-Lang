@@ -1,33 +1,28 @@
 package main
 
-import (
-	"fmt"
-	"sort"
-)
+import "os"
 
-// Sort methods are specific to the builtin type;
-// here’s an example for strings. Note that sorting is in-place,
-// so it changes the given slice and doesn’t return a new one.
+// A panic typically means something went unexpectedly wrong. Mostly we use it to fail fast on errors that shouldn’t occur
+// during normal operation, or that we aren’t prepared to handle gracefully.
 
-// We can also use sort to check if a slice is already in sorted order.
+// We’ll use panic throughout this site to check for unexpected errors.
+// This is the only program on the site designed to panic.
 
-// Running our program prints the sorted string and int slices and true as the result of our AreSorted test.
+// A common use of panic is to abort if a function returns an error value that we don’t know how to (or want to) handle.
+//  Here’s an example of panicking if we get an unexpected error when creating a new file.
+
+// Running this program will cause it to panic, print an error message and goroutine traces,
+// and exit with a non-zero status.
+
+// Note that unlike some languages which use exceptions for handling of many errors,
+// in Go it is idiomatic to use error-indicating return values wherever possible.
 
 func main() {
 
-	strs := []string{"c", "a", "b"}
-	sort.Strings(strs)
-	fmt.Println("Strings:", strs)
+	panic("a problem")
 
-	ints := []int{7, 2, 4}
-	sort.Ints(ints)
-	fmt.Println("Ints:   ", ints)
-
-	s := sort.IntsAreSorted(ints)
-	fmt.Println("Sorted: ", s)
+	_, err := os.Create("/tmp/file")
+	if err != nil {
+		panic(err)
+	}
 }
-
-// Expected Outpu:
-// Strings: [a b c]
-// Ints:    [2 4 7]
-// Sorted:  true
