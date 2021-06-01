@@ -2,96 +2,19 @@ package main
 
 import (
 	"fmt"
-	"math/rand"
-	"sync"
-	"sync/atomic"
-	"time"
+	"sort"
 )
 
-// Mutex in go lang
-// A Mutex is used to provide a locking mechanism to ensure that only one Goroutine is
-// running the critical section of code at any point in time to prevent race conditions
-// from happening.
-
-// Mutex is available in the sync package.
-// There are two methods defined on Mutex namely Lock and Unlock.
-// Any code that is present between a call to Lock and Unlock will be executed by only one Goroutine,
-// thus avoiding race condition.
-
-// If one Goroutine already holds the lock and if a new Goroutine
-// is trying to acquire a lock, the new Goroutine will be blocked until
-// the mutex is unlocked.
-
-// -----------About example -----------------
-// Here we start 100 goroutines to execute repeated reads against the state,
-//  once per millisecond in each goroutine.
-
-// For each read we pick a key to access,
-//  Lock() the mutex to ensure exclusive access to the state, read the value at the chosen key,
-// Unlock() the mutex, and increment the readOps count.
-
-// Wait a bit between reads.
-// We’ll also start 10 goroutines to simulate writes, using the same pattern we did for reads.
-// Let the 10 goroutines work on the state and mutex for a second.
-
-//     time.Sleep(time.Second)
-// Take and report final operation counts, With a final lock of state, show how it ended up.
-
-// Running the program shows that we executed about 90,000 total operations
-// against our mutex-synchronized state.
-
 func main() {
-	var state = make(map[int]int)
 
-	var mutex = &sync.Mutex{}
+	strs := []string{"c", "a", "b"}
+	sort.Strings(strs)
+	fmt.Println("Strings:", strs)
 
-	var readOps uint64
-	var writeOps uint64
+	ints := []int{7, 2, 4}
+	sort.Ints(ints)
+	fmt.Println("Ints:   ", ints)
 
-	for r := 0; r < 100; r++ {
-		go func() {
-			total := 0
-			for {
-
-				key := rand.Intn(5)
-				mutex.Lock()
-				total += state[key]
-				mutex.Unlock()
-				atomic.AddUint64(&readOps, 1)
-
-				time.Sleep(time.Millisecond)
-			}
-		}()
-	}
-
-	for w := 0; w < 10; w++ {
-		go func() {
-			for {
-				key := rand.Intn(5)
-				val := rand.Intn(100)
-				mutex.Lock()
-				state[key] = val
-				mutex.Unlock()
-				atomic.AddUint64(&writeOps, 1)
-				time.Sleep(time.Millisecond)
-			}
-		}()
-	}
-
-	time.Sleep(time.Second)
-
-	readOpsFinal := atomic.LoadUint64(&readOps)
-	fmt.Println("readOps:", readOpsFinal)
-	writeOpsFinal := atomic.LoadUint64(&writeOps)
-	fmt.Println("writeOps:", writeOpsFinal)
-
-	mutex.Lock()
-	fmt.Println("state:", state)
-	mutex.Unlock()
-
+	s := sort.IntsAreSorted(ints)
+	fmt.Println("Sorted: ", s)
 }
-
-// Expected output
-// readOps: 83285
-// writeOps: 8320
-// state: map[1:97 4:53 0:33 2:15 3:2]
